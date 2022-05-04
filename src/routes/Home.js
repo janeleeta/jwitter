@@ -1,14 +1,33 @@
-import React, { useState } from "react";
-import { collection, addDoc } from "firebase/firestore";
+import React, { useState, useEffect } from "react";
+import {
+  collection,
+  addDoc,
+  onSnapshot,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import { db } from "fbase";
+import Jweet from "components/Jweet";
 
-const Home = () => {
+const Home = ({ userObj }) => {
   const [jweet, setJweet] = useState("");
+  const [jweets, setJweets] = useState([]);
+  useEffect(() => {
+    const q = query(collection(db, "jweets"), orderBy("createdAt", "desc"));
+    onSnapshot(q, (snapshot) => {
+      const jweetArr = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setJweets(jweetArr);
+    });
+  }, []);
   const onSubmit = async (event) => {
     event.preventDefault();
     await addDoc(collection(db, "jweets"), {
-      jweet,
+      text: jweet,
       createdAt: new Date(),
+      creatorId: userObj.uid,
     });
     setJweet("");
   };
@@ -30,6 +49,15 @@ const Home = () => {
         ></input>
         <input type="submit" value="jweet"></input>
       </form>
+      <div>
+        {jweets.map((jweet) => (
+          <Jweet
+            key={jweet.id}
+            jweetObj={jweet}
+            isOwner={jweet.creatorId === userObj.uid}
+          />
+        ))}
+      </div>
     </div>
   );
 };
