@@ -37,6 +37,17 @@ const Home = ({ userObj }) => {
     } = event;
     setJweet(value);
   };
+  const onFileChange = (event) => {
+    const {
+      target: { files },
+    } = event;
+    const theFile = files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(theFile);
+    reader.onloadend = (fin) => {
+      console.log(fin);
+    };
+  };
   return (
     <div>
       <form onSubmit={onSubmit}>
@@ -47,6 +58,7 @@ const Home = ({ userObj }) => {
           placeholder="What's on your mind?"
           maxLength={120}
         ></input>
+        <input type="file" accept="image/*" onChange={onFileChange}></input>
         <input type="submit" value="jweet"></input>
       </form>
       <div>
