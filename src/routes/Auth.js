@@ -8,7 +8,6 @@ import {
   createUserWithEmailAndPassword,
   signInWithPopup,
 } from "firebase/auth";
-import { async } from "@firebase/util";
 
 const Auth = () => {
   const [email, setEmail] = useState();

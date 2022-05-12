@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { deleteDoc, updateDoc, doc } from "firebase/firestore";
-import { db } from "../fbase";
+import { deleteObject, ref } from "firebase/storage";
+import { db, storageService } from "fbase";
 
 const Jweet = ({ jweetObj, isOwner }) => {
   const [editing, setEditing] = useState(false);
@@ -21,8 +22,10 @@ const Jweet = ({ jweetObj, isOwner }) => {
   };
   const onDeleteClick = async () => {
     const confirm = window.confirm("정말 삭제하시겠습니까?");
+    const urlRef = ref(storageService, jweetObj.attachmentUrl);
     if (confirm) {
       await deleteDoc(JweetRef);
+      await deleteObject(urlRef);
     }
   };
   const toggleEditing = () => {
@@ -46,6 +49,9 @@ const Jweet = ({ jweetObj, isOwner }) => {
         </>
       ) : (
         <>
+          {jweetObj.attachmentUrl && (
+            <img src={jweetObj.attachmentUrl} width="100px" height="100px" />
+          )}
           <h4>{jweetObj.text}</h4>
           {isOwner && (
             <>
