@@ -43,7 +43,9 @@ function App() {
       ) : (
         "Initializing"
       )}
-      <footer>&copy; Jwitter {new Date().getFullYear()}</footer>
+      <footer className="footer">
+        &copy; Jwitter {new Date().getFullYear()}
+      </footer>
     </>
   );
 }

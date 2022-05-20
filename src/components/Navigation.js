@@ -7,25 +7,29 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 const Navigation = ({ userObj }) => {
   return (
     <nav>
-      <ul style={{ display: "flex", justifyContent: "center", marginTop: 50 }}>
+      <ul
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          marginTop: 50,
+        }}
+      >
         <li>
-          <Link to="/" style={{ marginRight: 10 }}>
+          <Link to="/">
             <FontAwesomeIcon icon={faTwitter} color={"#04AAFF"} size="2x" />
           </Link>
         </li>
-        <li>
+        <li style={{ marginTop: 20 }}>
           <Link
             to="/profile"
             style={{
-              marginLeft: 10,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
+              marginTop: 20,
               fontSize: 12,
             }}
           >
-            <FontAwesomeIcon icon={faUser} color={"#04AAFF"} size="2x" />
-            <span style={{ marginTop: 10 }}>
+            <FontAwesomeIcon icon={faUser} color={"#04AAFF"} size="x" />
+            <span style={{ marginTop: 10, marginLeft: 8, fontSize: 14 }}>
               {userObj.displayName
                 ? `${userObj.displayName}의 Profile`
                 : "Profile"}
